@@ -7,7 +7,6 @@ package poo.tareauno;
 
 import java.util.Scanner;
 import java.util.Arrays;
-import org.apache.commons.lang3.ArrayUtils;
 
 /**
  *
@@ -15,6 +14,17 @@ import org.apache.commons.lang3.ArrayUtils;
  */
 public class TareaUno {
 
+    static int encontrarIndice(String[] pavionesId, String id){
+        // Funcion que encuentra el indice de un elemento en un arreglo.
+        int index = 0;
+        for (;index < pavionesId.length; index++){
+            if (id.equals(pavionesId[index])){
+                break;
+            }
+        }
+        return index;
+    }
+    
     static void agregarAvion(String[][][] paviones, String[] pavionesId){
         System.out.println("Agregar avión"); 
         Scanner leerEntrada = new Scanner(System.in);
@@ -25,16 +35,17 @@ public class TareaUno {
             if (id.length() != 5){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
                 System.out.println("ERROR: El string ingresado debe ser de exactamente 5 caracteres.");
             }
-            // FALTA REVISAR SI EL AVION YA ESTA REGISTRADO.
         } while (id.length() != 5);
+        
+        int index = encontrarIndice(pavionesId, id);
+        if (index != pavionesId.length){
+            // Si encuentra una identificación igual, envía un mensaje de error.
+            System.out.println("Avión ya está registrado. No se puede agregar.");
+            return;                  
+        }
         
         int avion = 0; // Se inicializa el índice del avión vacío que se va a agregar.
         for (; avion < pavionesId.length; avion++){ // Se recorre el arreglo de los IDs de los aviones para encontrar el primero que esté vacío.
-            if(pavionesId[avion].equals(id)){ // Valida que el avión no esté registrado.
-                // Si encuentra una identificación igual, envía un mensaje de error.
-                System.out.println("El avión con la identificación ingresada ya está registrado.");
-                return;
-            }
             if("".equals(pavionesId[avion])){
                 pavionesId[avion] = id; // Se asigna la identificación y se sale.
                 break;
