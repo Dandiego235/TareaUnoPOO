@@ -7,6 +7,7 @@ package poo.tareauno;
 
 import java.util.Scanner;
 import java.util.Arrays;
+import org.apache.commons.lang3.ArrayUtils;
 
 /**
  *
@@ -29,10 +30,20 @@ public class TareaUno {
         
         int avion = 0; // Se inicializa el índice del avión vacío que se va a agregar.
         for (; avion < pavionesId.length; avion++){ // Se recorre el arreglo de los IDs de los aviones para encontrar el primero que esté vacío.
+            if(pavionesId[avion].equals(id)){ // Valida que el avión no esté registrado.
+                // Si encuentra una identificación igual, envía un mensaje de error.
+                System.out.println("El avión con la identificación ingresada ya está registrado.");
+                return;
+            }
             if("".equals(pavionesId[avion])){
                 pavionesId[avion] = id; // Se asigna la identificación y se sale.
                 break;
             }
+        }
+        
+        if(avion == 20){ // Valida si ya todos los aviones están registrados.
+            System.out.println("No hay aviones disponibles para registrar.");
+            return;
         }
         
         String zeroPad; // Variables para construir el identificador de cada asiento.
@@ -53,6 +64,7 @@ public class TareaUno {
                 // Se construye el identificador.
             }
         }
+        leerEntrada.close();
     }
     
     static void modificarCapacidadAsientos(){
