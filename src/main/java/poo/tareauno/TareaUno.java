@@ -75,11 +75,60 @@ public class TareaUno {
                 // Se construye el identificador.
             }
         }
-        leerEntrada.close();
     }
     
-    static void modificarCapacidadAsientos(){
+    static void modificarCapacidadAsientos(String[][][] paviones, String[] pavionesId){
+        System.out.println("Modificar capacidad de asientos"); 
+        Scanner leerEntrada = new Scanner(System.in);
+        String id; // String para la identificación del avión
+        do{
+            System.out.println("Ingrese el identificador del avión (String de 5 caracteres exactos)");
+            id = leerEntrada.nextLine(); // Lee la entrada
+            if (id.length() != 5){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
+                System.out.println("ERROR: El string ingresado debe ser de exactamente 5 caracteres.");
+            }
+        } while (id.length() != 5);
         
+        int index = encontrarIndice(pavionesId, id);
+        if (index == pavionesId.length){
+            // Si encuentra una identificación igual, envía un mensaje de error.
+            System.out.println("Avión no está registrado. No se puede modificar.");
+            return;                  
+        }
+        
+        String asiento;
+        do{
+            System.out.println("Ingrese el número y letra del asiento. Ej: 01A");
+            asiento = leerEntrada.nextLine(); // Lee la entrada
+            if (asiento.length() != 3){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
+                System.out.println("ERROR: El string ingresado debe ser de exactamente 3 caracteres.");
+            }
+        } while (asiento.length() != 3);
+        
+        boolean seguirFila = true;
+        
+        for (int fila = 0; fila < paviones[index].length; fila++){
+            if (!seguirFila) {
+                break;
+            }
+            if (paviones[index][fila][0].substring(2,3).equals(asiento.substring(2))){
+                for (int seat = 0; seat < paviones[index][fila].length; seat++){
+                    if (paviones[index][fila][seat].substring(0,2).equals(asiento.substring(0,2))){
+                        if (paviones[index][fila][seat].length() > 5){
+                            if ("A".equals(paviones[index][fila][seat].substring(5))){
+                                paviones[index][fila][seat] = paviones[index][fila][seat].substring(0,5) + "I";
+                            }
+                            else{
+                                paviones[index][fila][seat] = paviones[index][fila][seat].substring(0,5) + "A";
+                            }
+                            System.out.println(paviones[index][fila][seat]);
+                            seguirFila = false;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
     
     static void excluirAvion(){
@@ -154,7 +203,7 @@ public class TareaUno {
                     agregarAvion(aviones, avionesId);
                     break;
                 case 2:
-                    modificarCapacidadAsientos();
+                    modificarCapacidadAsientos(aviones, avionesId);
                     break;
                 case 3:
                     excluirAvion();
