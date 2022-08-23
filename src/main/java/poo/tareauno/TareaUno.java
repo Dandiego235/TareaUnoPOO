@@ -188,10 +188,15 @@ public class TareaUno {
 
     }
     
+    static void registrarPasajeros(String[][] pPasajeros, String[] pPasajerosId){
+        
+    }
+    
     @SuppressWarnings("empty-statement")
     public static void main(String[] args) {
         final short NUM_AVIONES = 20;
         final short FILAS = 25;
+        final short NUM_PASAJEROS = 5000;
         
         String[][][] aviones = new String [NUM_AVIONES][FILAS][]; // matriz para almacenar todos los aviones
         for (int avion = 0; avion < aviones.length; avion++){ // se recorre la matriz para asignarle la longitud correcta a cada fila.
@@ -203,6 +208,9 @@ public class TareaUno {
                 }
             }
         }
+        
+        String[] pasajerosId = new String[NUM_PASAJEROS];
+        String[][] pasajeros = new String[NUM_PASAJEROS][4];
         
         String[] avionesId = new String[NUM_AVIONES]; // Matriz donde se almacenan los identificadores de los aviones.        
         // Tiene una relación 1 a 1 con los índices de la primera dimensión de la matriz aviones.
@@ -255,6 +263,9 @@ public class TareaUno {
                     break;
                 case 9:
                     consultarAsientosDisponibles();
+                    break;
+                case 10:
+                    registrarPasajeros(pasajeros, pasajerosId);
                     break;
                 default:
                     System.out.println("¡Hasta pronto!");
