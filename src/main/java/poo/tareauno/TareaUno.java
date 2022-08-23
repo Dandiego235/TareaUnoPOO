@@ -51,7 +51,7 @@ public class TareaUno {
             }
         }
         
-        if(avion == 20){ // Valida si ya todos los aviones están registrados.
+        if(avion == pavionesId.length){ // Valida si ya todos los aviones están registrados.
             System.out.println("No hay aviones disponibles para registrar.");
             return;
         }
@@ -189,7 +189,57 @@ public class TareaUno {
     }
     
     static void registrarPasajeros(String[][] pPasajeros, String[] pPasajerosId){
+        System.out.println("Registrar pasajeros"); 
+        Scanner leerEntrada = new Scanner(System.in);
+        String id; // String para la identificación del avión
+        do{
+            System.out.println("Ingrese la identificación del pasajero (String de 1 a 12 caracteres)");
+            id = leerEntrada.nextLine(); // Lee la entrada
+            if (id.length() > 12 || id.length() == 0){ 
+            //  Si la entrada no está entre el rango deseado, envía un error.
+                System.out.println("ERROR: El string ingresado debe tener de 1 a 12 caracteres.");
+            }
+        } while (id.length() > 12 || id.length() == 0);
+        int index = encontrarIndice(pPasajerosId, id);
+        if (index != pPasajerosId.length){
+            // Si encuentra una identificación igual, envía un mensaje de error.
+            System.out.println("Pasajero ya está registrado. No se puede agregar.");
+            return;                  
+        }
         
+        int pasajero = 0; // Se inicializa el índice del pasajero que se va a agregar.
+        for (; pasajero < pPasajerosId.length; pasajero++){ // Se recorre el arreglo de los IDs de los pasajeros para encontrar el primero que esté vacío.
+            if("".equals(pPasajerosId[pasajero])){
+                pPasajerosId[pasajero] = id; // Se asigna la identificación y se sale.
+                break;
+            }
+        }
+        
+        if(pasajero == pPasajerosId.length){ // Valida si ya se registraron la capacidad máxima de pasajeros.
+            System.out.println("Ya hay la cantidad de máxima de pasajeros registrados.");
+            return;
+        }
+        String nombre;
+        do{
+            System.out.println("Ingrese el nombre del pasajero (String de 1 a 15 caracteres)");
+            nombre = leerEntrada.nextLine(); // Lee la entrada
+            if (nombre.length() > 15 || nombre.length() == 0){
+                //  Si la entrada no está entre el rango deseado, envía un error.
+                System.out.println("ERROR: El string ingresado debe tener de 1 a 15 caracteres.");
+            }
+        } while (nombre.length() > 15 || nombre.length() == 0);
+        String apellido;
+        do{
+            System.out.println("Ingrese el apellido del pasajero (String de 1 a 15 caracteres)");
+            apellido = leerEntrada.nextLine(); // Lee la entrada
+            if (apellido.length() > 15 || apellido.length() == 0){
+                //  Si la entrada no está entre el rango deseado, envía un error.
+                System.out.println("ERROR: El string ingresado debe tener de 1 a 15 caracteres.");
+            }
+        } while (apellido.length() > 15 || apellido.length() == 0);
+        
+        // se crea la información del pasajero.
+        pPasajeros[pasajero] = new String[] {nombre, apellido, "", ""}; // avion y asiento
     }
     
     @SuppressWarnings("empty-statement")
@@ -211,7 +261,13 @@ public class TareaUno {
         
         String[] pasajerosId = new String[NUM_PASAJEROS];
         String[][] pasajeros = new String[NUM_PASAJEROS][4];
-        
+        // se llenan los arreglos con strings vacios.
+        for (int pasajero = 0; pasajero < pasajerosId.length; pasajero++){
+            pasajerosId[pasajero] = "";
+            for (int i = 0; i < 4; i++){
+                pasajeros[pasajero][i] = "";
+            }
+        }
         String[] avionesId = new String[NUM_AVIONES]; // Matriz donde se almacenan los identificadores de los aviones.        
         // Tiene una relación 1 a 1 con los índices de la primera dimensión de la matriz aviones.
         for (int index = 0; index < avionesId.length; index++){ // se llena el arreglo de strings vacios
@@ -233,6 +289,7 @@ public class TareaUno {
             System.out.println("7: Consultar avión");
             System.out.println("8: Buscar pasajero");
             System.out.println("9: Consultar asientos disponibles");
+            System.out.println("10: Registrar pasajeros");
             System.out.println("0: Salir");
             System.out.print("Opción: ");
             opcion = leerDato.nextInt();
