@@ -36,7 +36,6 @@ public class TareaUno {
                 System.out.println("ERROR: El string ingresado debe ser de exactamente 5 caracteres.");
             }
         } while (id.length() != 5);
-        
         int index = encontrarIndice(pavionesId, id);
         if (index != pavionesId.length){
             // Si encuentra una identificación igual, envía un mensaje de error.
@@ -131,8 +130,39 @@ public class TareaUno {
         }
     }
     
-    static void excluirAvion(){
+    static void excluirAvion(String[] pavionesId, String[][][] paviones){
+        Scanner leerEntrada = new Scanner(System.in);
+        String id; // String para la identificación del avión
+        do{
+            System.out.println("Ingrese el identificador del avión a excluir (String de 5 caracteres exactos)");
+            id = leerEntrada.nextLine(); // Lee la entrada
+            if (id.length() != 5){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
+                System.out.println("ERROR: El string ingresado debe ser de exactamente 5 caracteres.");
+            }
+        } while (id.length() != 5);
         
+        int avion = encontrarIndice(pavionesId, id); // devuelve el indice respectivo de la identificacion
+        if (avion == pavionesId.length){ // Si el indice es la longitud maxima, no esta registrado.
+            System.out.println("El avión con la identificación ingresada no existe.");
+            return;       
+        }
+        
+        for (int fila = 0; fila < paviones[avion].length; fila++){ // validación de que el avión está vacío.
+            for (int asiento = 0; asiento < paviones[avion][fila].length; asiento++){
+                if (paviones[avion][fila][asiento].length() != 5){
+                    // si en algun asiento, el string no tiene 5 caracteres, es que tiene un pasajero, entonces el avion no está vacío.
+                    System.out.println("El avión no está vacío. No se puede excluir.");
+                    return;
+                }
+            }
+        }
+        
+        for (int fila = 0; fila < paviones[avion].length; fila++){ // Vacía el avión.
+            for (int asiento = 0; asiento < paviones[avion][fila].length; asiento++){
+                paviones[avion][fila][asiento] = "";
+            } 
+        }
+        pavionesId[avion] = ""; // Borra la identificación.
     }
     
     static void asignarPasajeros(){
@@ -206,7 +236,7 @@ public class TareaUno {
                     modificarCapacidadAsientos(aviones, avionesId);
                     break;
                 case 3:
-                    excluirAvion();
+                    excluirAvion(avionesId, aviones);
                     break;
                 case 4:
                     asignarPasajeros();
