@@ -110,15 +110,23 @@ public class TareaUno {
             if (!seguirFila) {
                 break;
             }
-            if (paviones[index][fila][0].substring(2,3).equals(asiento.substring(2))){
+            System.out.println(asiento.substring(0,2));
+            System.out.println(paviones[index][fila][0].substring(0,2));
+            
+            if (paviones[index][fila][0].substring(0,2).equals(asiento.substring(0,2))){
+                System.out.println(Arrays.deepToString(paviones));
+             
                 for (int seat = 0; seat < paviones[index][fila].length; seat++){
-                    if (paviones[index][fila][seat].substring(0,2).equals(asiento.substring(0,2))){
+                    System.out.println(asiento.substring(2));
+                    System.out.println(paviones[index][fila][seat].substring(2,3));
+   
+                    if (paviones[index][fila][seat].substring(2,3).equals(asiento.substring(2))){
                         if (paviones[index][fila][seat].length() <= 5){
-                            if ("A".equals(paviones[index][fila][seat].substring(5))){
-                                paviones[index][fila][seat] = paviones[index][fila][seat].substring(0,5) + "I";
+                            if ("A".equals(paviones[index][fila][seat].substring(4))){
+                                paviones[index][fila][seat] = paviones[index][fila][seat].substring(0,4) + "I";
                             }
                             else{
-                                paviones[index][fila][seat] = paviones[index][fila][seat].substring(0,5) + "A";
+                                paviones[index][fila][seat] = paviones[index][fila][seat].substring(0,4) + "A";
                             }
                             System.out.println(paviones[index][fila][seat]);
                             seguirFila = false;
@@ -202,22 +210,34 @@ public class TareaUno {
         
         boolean seguirFila = true;
         int fila = 0;
-        for (; fila < paviones[index].length; fila++){
+        for (; fila < paviones[index].length; ++fila){
+            
             if (!seguirFila) {
                 break;
             }
-            if (paviones[index][fila][0].substring(2,3).equals(asiento.substring(2))){
+            System.out.println(asiento.substring(2));
+            System.out.println(paviones[index][fila][0].substring(2,3));
+            
+            if (paviones[index][fila][0].substring(0,2).equals(asiento.substring(0,2))){
                 for (int seat = 0; seat < paviones[index][fila].length; seat++){
-                    if (paviones[index][fila][seat].substring(0,2).equals(asiento.substring(0,2))){
-                        if (paviones[index][fila][seat].length() <= 5 && "A".equals(paviones[index][fila][seat].substring(5))){
+                    System.out.println(asiento.substring(0,2));
+                    if (paviones[index][fila][seat].substring(2,3).equals(asiento.substring(2))){
+                        System.out.println(paviones[index][fila][seat].length());
+                        System.out.println(paviones[index][fila][seat].substring(4));
+                        if (paviones[index][fila][seat].length() <= 5 && "A".equals(paviones[index][fila][seat].substring(4))){
                             String pasajero;
+                            boolean continueIdent = false;
                             do{
                                 System.out.println("Ingrese la identificación del pasajero");
                                 pasajero = leerEntrada.nextLine(); // Lee la entrada
                                 if (pasajero.length() > 12 && pasajero.length() <= 0){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
                                     System.out.println("ERROR: El string ingresado debe ser entre 1 a 12 caracteres de largo");
                                 }
-                            } while (pasajero.length() > 12 && pasajero.length() <= 0);
+                                else{
+                                    continueIdent = true;
+                                    break;
+                                }
+                            } while (pasajero.length() > 12 && pasajero.length() <= 0 && continueIdent == false);
                             
                             int pasaIndex = encontrarIndice(parPasajerosId, pasajero);
                             if (pasaIndex == parPasajerosId.length){
@@ -229,6 +249,7 @@ public class TareaUno {
                             parPasajeros[pasaIndex][3] = asiento;
                             System.out.println(Arrays.deepToString(parPasajeros));
                             System.out.println(Arrays.deepToString(paviones));
+                            return;
                         }
                         else {
                             System.out.println("ERROR: Ese asiento tiene pasajeros o está inactivo.");
@@ -463,6 +484,7 @@ public class TareaUno {
             switch (opcion){
                 case 1:
                     agregarAvion(aviones, avionesId);
+                    System.out.println(Arrays.deepToString(aviones));
                     break;
                 case 2:
                     modificarCapacidadAsientos(aviones, avionesId);
