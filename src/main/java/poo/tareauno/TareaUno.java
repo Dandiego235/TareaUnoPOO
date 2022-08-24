@@ -316,7 +316,7 @@ public class TareaUno {
         System.out.println(fila + " " + columna);
         
         if ((paviones[avion][fila][columna].substring(6, paviones[avion][fila][columna].length())).equals(idPas)){
-            paviones[avion][fila][columna] = paviones[avion][fila][columna].substring(6);
+            paviones[avion][fila][columna] = paviones[avion][fila][columna].substring(0,5);
             pPasajeros[indexPas] = new String[] {pPasajeros[indexPas][0], pPasajeros[indexPas][1], "", ""};
         } else {
             System.out.println("ERROR: La identificación del pasajero dada no coincide con la del asiento.");
@@ -324,7 +324,7 @@ public class TareaUno {
         }
     }
     
-    static void vaciarAvion(String[][][] paviones, String[] pavionesId, String[] parPasajerosId, String[][] parPasajeros){
+    static void vaciarAvion(String[][][] paviones, String[] pavionesId, String[] pPasajerosId, String[][] pPasajeros){
         System.out.println("Vaciar avión"); 
         Scanner leerEntrada = new Scanner(System.in);
         String id; // String para la identificación del avión
@@ -352,16 +352,20 @@ public class TareaUno {
         
         int fila = 0;
         for (; fila < paviones[index].length; fila++){
-            for (int pasajero = 0; pasajero < paviones.length; pasajero++){
-                int pasaIndex = encontrarIndice(parPasajerosId, paviones[index][fila][pasajero].substring(6));
+            for (int pasajero = 0; pasajero < paviones[index][fila].length; pasajero++){
+                System.out.println(paviones[index][fila][pasajero]);
+                if (paviones[index][fila][pasajero].length() > 5){
+                } else {
+                    continue;
+                }
+                int indexPas = encontrarIndice(pPasajerosId, paviones[index][fila][pasajero].substring(5));
+                //if ((paviones[index][fila][pasajero].substring(5, paviones[index][fila][pasajero].length())).equals()){
+                    paviones[index][fila][pasajero] = paviones[index][fila][pasajero].substring(0,5);
+                    pPasajeros[indexPas] = new String[] {pPasajeros[indexPas][0], pPasajeros[indexPas][1], "", ""};
             }
-            
-            
-              
         }
-        if (fila == paviones[index].length) {
-            System.out.println("ERROR: Ese asiento no existe.");
-        }
+        System.out.println(Arrays.deepToString(pPasajeros));
+        System.out.println(Arrays.deepToString(paviones));
     }
     
     static void consultarAvion(){
