@@ -387,6 +387,9 @@ public class TareaUno {
                     System.out.println("CLASE ECONÓMICA");
                 }
                 for (int asiento = 0; asiento < paviones[avion][fila].length; asiento++){
+                    if (fila == 3){
+                        System.out.println("CLASE ECONÓMICA");
+                    }
                     if (asiento == 2 && fila < 4){
                         System.out.printf("%-50s       	", " ");
                     }
