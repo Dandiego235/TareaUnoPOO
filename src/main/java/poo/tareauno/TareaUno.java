@@ -9,22 +9,37 @@ import java.util.Scanner;
 import java.util.Arrays;
 
 /**
+ * Tarea Uno: Asignación de asientos
+ * Coautores: Daniel Granados Retana, carné 2022104692
+ *            Diego Granados Retana, carné 2022158363
  *
- * @author dandi
+ * Programación Orientada a Objetos
+ * Profesor: William Mata
+ * Instituto Tecnológico de Costa Rica
+ * Escuela de Computación
+ * 
+ * Fecha: 25/07/2022
  */
 public class TareaUno {
-
+    
+    // Función que encuentra el índice de un elemento en un arreglo de una dimensión.
+    // Entradas: Arreglo de una dimensión y String con el elemento a buscar
+    // Salidas: índice del elemento en el arreglo.
     static int encontrarIndice(String[] pavionesId, String id){
         // Funcion que encuentra el indice de un elemento en un arreglo.
         int index = 0;
+        // Ciclo que itera por el arreglo hasta encontrar el índice.
         for (;index < pavionesId.length; index++){
             if (id.equals(pavionesId[index])){
-                break;
+                break; // Si el string es igual a lo que contiene el arreglo en el índice, se sale.
             }
         }
-        return index;
+        return index; // Si el index es igual a la longitud del arreglo, no encontró el elemento.
     }
     
+    // Función que inicializa aviones y agrega su identificación.
+    // Entradas: Identificación, arreglo con todos los aviones, arreglo con las identificaciones de los aviones.
+    // Salidas: No hay
     static void agregarAvion(String[][][] paviones, String[] pavionesId){
         System.out.println("Agregar avión"); 
         Scanner leerEntrada = new Scanner(System.in);
@@ -37,16 +52,17 @@ public class TareaUno {
             }
         } while (id.length() != 5);
         int index = encontrarIndice(pavionesId, id);
-        if (index != pavionesId.length){
+        // index es el índice de la identificación en el arreglo de identificaciones.
+        if (index != pavionesId.length){ // Si el índice es la longitud del arreglo, es que no encontró el elemento.
             // Si encuentra una identificación igual, envía un mensaje de error.
             System.out.println("Avión ya está registrado. No se puede agregar.");
-            return;                  
+            return;
         }
         
         int avion = 0; // Se inicializa el índice del avión vacío que se va a agregar.
         for (; avion < pavionesId.length; avion++){ // Se recorre el arreglo de los IDs de los aviones para encontrar el primero que esté vacío.
-            if("".equals(pavionesId[avion])){
-                pavionesId[avion] = id; // Se asigna la identificación y se sale.
+            if("".equals(pavionesId[avion])){ // Cuando haya uno vacío,
+                pavionesId[avion] = id; // Se asigna la identificación y se sale. avión queda con el índice que correponde a la identificación.
                 break;
             }
         }
@@ -71,11 +87,14 @@ public class TareaUno {
                     letra += 65; // A los demás se le suma 65 para convertirlos en A, B, C, D, E y F.
                 }
                 paviones[avion][fila][asiento] = zeroPad + (fila + 1) + letra + clase + "A";
-                // Se construye el identificador.
+                // Se construye el identificador y se asigna al asiento.
             }
         }
     }
     
+    // Función que modifica la capacidad de los asientos. Cambia el estado de los asientos, de activo a inactivo
+    // Entradas: identificación del avión, asiento, arreglo de aviones y arreglo de identificaciones de aviones.
+    // Salidas: No hay
     static void modificarCapacidadAsientos(String[][][] paviones, String[] pavionesId){
         System.out.println("Modificar capacidad de asientos"); 
         Scanner leerEntrada = new Scanner(System.in);
@@ -89,6 +108,7 @@ public class TareaUno {
         } while (id.length() != 5);
         
         int index = encontrarIndice(pavionesId, id);
+        // index es el índice de la identificación en el arreglo de identificaciones.
         if (index == pavionesId.length){
             // Si encuentra una identificación igual, envía un mensaje de error.
             System.out.println("Avión no está registrado. No se puede modificar.");
@@ -145,6 +165,9 @@ public class TareaUno {
         }
     }
     
+    // Función que excluye aviones, los borra de los arreglos.
+    // Entradas: Identificación el avión a excluir
+    // Salidas: No hay
     static void excluirAvion(String[] pavionesId, String[][][] paviones){
         Scanner leerEntrada = new Scanner(System.in);
         String id; // String para la identificación del avión
@@ -174,7 +197,7 @@ public class TareaUno {
         
         for (int fila = 0; fila < paviones[avion].length; fila++){ // Vacía el avión.
             for (int asiento = 0; asiento < paviones[avion][fila].length; asiento++){
-                paviones[avion][fila][asiento] = "";
+                paviones[avion][fila][asiento] = ""; // Se vuelve a poner como estaba al inicio, con strings vacíos.
             } 
         }
         pavionesId[avion] = ""; // Borra la identificación.
@@ -264,6 +287,9 @@ public class TareaUno {
         }
     }
     
+    // Función que vacía un asiento
+    // Entradas: Identificación del avión, identificación del asiento e identificación del pasajero.
+    // Salidas: No hay
     static void vaciarAsiento(String[] pavionesId,String[][][] paviones,String[][] pPasajeros,String[] pPasajerosId){
         Scanner leerEntrada = new Scanner(System.in);
         String idAvion; // String para la identificación del avión
@@ -281,7 +307,7 @@ public class TareaUno {
             return;       
         }
         
-        String asiento;
+        String asiento; // String para la identificación del asiento
         do{
             System.out.println("Ingrese el número y letra del asiento. Ej: 01A");
             asiento = leerEntrada.nextLine(); // Lee la entrada
@@ -301,23 +327,49 @@ public class TareaUno {
         } while (idPas.length() > 12 || idPas.length() == 0);
         int indexPas = encontrarIndice(pPasajerosId, idPas);
         if (indexPas == pPasajerosId.length){
-            // Si encuentra una identificación igual, envía un mensaje de error.
+            // Si no encuentra una identificación igual, envía un mensaje de error.
             System.out.println("Pasajero no está registrado. No se puede eliminar del asiento.");
             return;                  
         }
+        int fila;
+        try{
+            fila = (Integer.parseInt(asiento.substring(0,2)) - 1); // Se extrae la fila a partir del string del asiento.
+            if (fila == -1 || fila >= paviones[avion].length){
+                // Si la fila no está entre 0 y la cantidad de filas -1, envía un error.
+                System.out.println("ERROR: Asiento ingresado no es válido.");
+                return;
+            }
+        }
+        catch(Exception e){
+            System.out.println("ERROR: Asiento ingresado no es válido.");
+            // Si se ingresa un asiento tal que no se pudo extraer un número, 
+            return;
+        }
         
-        int fila = (Integer.parseInt(asiento.substring(0,2)) - 1);
-        int columna;
+        int columna; // Variable para almacenar como la "columna" de los asientos
         if (fila < 4 && asiento.charAt(2) > 'B'){
+            // Si estamos en las primeras 4 filas y tenemos una E o F, le restamos 67 para pasarlas de su valor 
+            // ASCII a su valor numérico.
             columna = (int)asiento.charAt(2) - 67;
+            
         } else{
+            // Restamos 65 para pasar del valor ASCII al valor numérico.
             columna = (int)asiento.charAt(2) - 65;
         }
+        
+        if ((columna > 5 && fila > 3) || (columna > 3 && fila < 4)) { // Si tenemos una columna mayor a la posible.
+            System.out.println("ERROR: Asiento ingresado no es válido.");
+            return;
+        }
+        
         System.out.println(fila + " " + columna);
         
         if ((paviones[avion][fila][columna].substring(5, paviones[avion][fila][columna].length())).equals(idPas)){
+            // Si la identificación de pasajeros al final del asiento es igual a la identificación dada por el usuario,
             paviones[avion][fila][columna] = paviones[avion][fila][columna].substring(0,5);
+            // Borramos el final del string con la identificación para dejar solo el asiento
             pPasajeros[indexPas] = new String[] {pPasajeros[indexPas][0], pPasajeros[indexPas][1], "", ""};
+            // Editamos el arreglo de pasajeros para borrar el avión y el asiento de la información de los pasajeros.
         } else {
             System.out.println("ERROR: La identificación del pasajero dada no coincide con la del asiento.");
             return;
@@ -353,13 +405,16 @@ public class TareaUno {
         int fila = 0;
         for (; fila < paviones[index].length; fila++){
             for (int pasajero = 0; pasajero < paviones.length; pasajero++){
-                int pasaIndex = encontrarIndice(parPasajerosId, paviones[index][fila][pasajero].substring(5));
+                int pasaIndex = encontrarIndice(pPasajerosId, paviones[index][fila][pasajero].substring(5));
             }
         }
         System.out.println(Arrays.deepToString(pPasajeros));
         System.out.println(Arrays.deepToString(paviones));
     }
     
+    // Función que imprime el desglose de los asientos de un avión.
+    // Entradas: Identificación del avión, arreglo de aviones, de identificaciones de aviones, de pasajeros y de identificaciones de pasajeros.
+    // Salidas: No hay
     static void consultarAvion(String[][][] paviones, String[] pavionesId, String[][] pPasajeros, String[] pPasajerosId){
         Scanner leerEntrada = new Scanner(System.in);
         String idAvion; // String para la identificación del avión
@@ -379,35 +434,42 @@ public class TareaUno {
         
         System.out.println("CLASE EJECUTIVA");
             for (int fila = 0; fila < paviones[avion].length; fila++){
-                if (fila == 3){
+                // Se recorren las filas imprimiendo los asientos y pasajeros
+                if (fila == 4){
                     System.out.println("CLASE ECONÓMICA");
+                    // Al inicio de la fila 3, se imprime este mensaje.
                 }
                 for (int asiento = 0; asiento < paviones[avion][fila].length; asiento++){
-                    if (fila == 3){
-                        System.out.println("CLASE ECONÓMICA");
-                    }
                     if (asiento == 2 && fila < 4){
                         System.out.printf("%-50s       	", " ");
+                        // en las filas menores a la 4, se dejan un espacio en blanco en el medio porque estas no tienen 2 asientos.
                     }
                     String nombre;
                     try{
                         String pasajeroId = paviones[avion][fila][asiento].substring(5);
+                        // Intenta obtener la identificación de pasajeros.
                         int indexPas = encontrarIndice(pPasajerosId, pasajeroId);
+                        // Encuentra el índice que corresponde a la identificación del pasajero
                         nombre = pPasajeros[indexPas][0] + " " + pPasajeros[indexPas][1];
+                        // Extrae el nombre y el apellido.
                     }
                     catch (Exception e){
+                        // Si no hay identificación, el nombre quda vació
                         nombre = "";
                     }
                     if (paviones[avion][fila][asiento].charAt(4) == 'I'){
-                        nombre = "INACTIVO";
+                        nombre = "INACTIVO"; // Si el asiento está inactivo, el nombre queda como inactivo.
                     }
                     System.out.printf("%s-%s %-20s\t", paviones[avion][fila][asiento].substring(0,2),
                     paviones[avion][fila][asiento].charAt(2), nombre);
+                    // Se usa un string con formatos para que todos los nombres ocupen el mismo espacio.
                 }
                 System.out.println("\n");
             }
     }
     
+    // Función que busca un pasajero a partir de una identificación. Imprime el nombre, el avión y el asiento.
+    // Entradas: Identificación del pasajero, y los arreglos con los pasajeros y sus identificaciones.
     static void buscarPasajero(String[][] pPasajeros,String[] pPasajerosId){
         String idPas; // String para la identificación del avión
         Scanner leerEntrada = new Scanner(System.in);
@@ -435,6 +497,9 @@ public class TareaUno {
 
     }
     
+    // Función que registra pasajeros.
+    // Entradas: Identificación de pasajero, nombre, apellido
+    // Salidas: No hay
     static void registrarPasajeros(String[][] pPasajeros, String[] pPasajerosId){
         System.out.println("Registrar pasajeros"); 
         Scanner leerEntrada = new Scanner(System.in);
@@ -543,7 +608,6 @@ public class TareaUno {
             switch (opcion){
                 case 1:
                     agregarAvion(aviones, avionesId);
-                    System.out.println(Arrays.deepToString(aviones));
                     break;
                 case 2:
                     modificarCapacidadAsientos(aviones, avionesId);
