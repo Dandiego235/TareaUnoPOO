@@ -88,15 +88,15 @@ public class TareaUno {
             }
         } while (id.length() != 5);
         
-        int index = encontrarIndice(pavionesId, id);
-        if (index == pavionesId.length){
+        int index = encontrarIndice(pavionesId, id); // Se va a usar para encontrar el avión correcto
+        if (index == pavionesId.length){ // Si la longitud del arreglo con los IDs de los aviones es igual al índice, significa que no existe
             // Si encuentra una identificación igual, envía un mensaje de error.
             System.out.println("Avión no está registrado. No se puede modificar.");
             return;                  
         }
         
-        String asiento;
-        do{
+        String asiento; // Se va a usar para almacenar el asiento
+        do{ // Mientras el usuario no haya ingresado un asiento válido
             System.out.println("Ingrese el número y letra del asiento. Ej: 01A");
             asiento = leerEntrada.nextLine(); // Lee la entrada
             if (asiento.length() != 3){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
@@ -104,43 +104,40 @@ public class TareaUno {
             }
         } while (asiento.length() != 3);
         
-        boolean seguirFila = true;
-        int fila = 0;
+        boolean seguirFila = true;  // Se va a usar para terminar el for loop
+        int fila = 0;  // Se va a usar para recorrer cada fila.
         for (; fila < paviones[index].length; fila++){
-            if (!seguirFila) {
+            if (!seguirFila) {  // Si esa variable es falsa, significa que no se puede seguir y tiene que terminar
                 break;
             }
-            System.out.println(asiento.substring(0,2));
-            System.out.println(paviones[index][fila][0].substring(0,2));
             
+             // Si la fila es correcta, o sea, es igual
+            int seat = 0;
             if (paviones[index][fila][0].substring(0,2).equals(asiento.substring(0,2))){
-                System.out.println(Arrays.deepToString(paviones));
-             
-                for (int seat = 0; seat < paviones[index][fila].length; seat++){
-                    System.out.println(asiento.substring(2));
-                    System.out.println(paviones[index][fila][seat].substring(2,3));
-   
-                    if (paviones[index][fila][seat].substring(2,3).equals(asiento.substring(2))){
-                        if (paviones[index][fila][seat].length() <= 5){
-                            if ("A".equals(paviones[index][fila][seat].substring(4))){
+                for (seat = 0; seat < paviones[index][fila].length; seat++){  // empieza a recorrerla
+                    if (paviones[index][fila][seat].substring(2,3).equals(asiento.substring(2))){  // Si la letra del asiento es igual a la que se busca
+                        if (paviones[index][fila][seat].length() <= 5){  // Si el asiento tiene 5 o menos caracteres, está vacío
+                            if ("A".equals(paviones[index][fila][seat].substring(4))){  // Si ese asiento está activo, se convierte en inactivo
                                 paviones[index][fila][seat] = paviones[index][fila][seat].substring(0,4) + "I";
                             }
-                            else{
+                            else{  // Si está inactivo, se convierte en activo.
                                 paviones[index][fila][seat] = paviones[index][fila][seat].substring(0,4) + "A";
                             }
-                            System.out.println(paviones[index][fila][seat]);
                             seguirFila = false;
                             break;  
                         }
-                        else {
+                        else {  // Si el asiento tiene más de 5 caracteres, tiene pasajeros y no se puede modificar.
                         System.out.println("ERROR: Ese asiento tiene pasajeros.");
                         return;
                         }  
                     }
                 }
             }
+            if (seat == paviones[index][fila].length) {  // Si el asiento no existe, da mensaje de error.
+                System.out.println("ERROR: Ese asiento no existe.");
+            }
         }
-        if (fila == paviones[index].length) {
+        if (fila == paviones[index].length) {  // Si la longitud del arreglo de filas es igual al índice que se usaba para recorrerla, el asiento no puede existir.
             System.out.println("ERROR: Ese asiento no existe.");
         }
     }
@@ -192,6 +189,7 @@ public class TareaUno {
             }
         } while (id.length() != 5);
         
+         // Igual a Modificar Capacidad de Asientos
         int index = encontrarIndice(pavionesId, id);
         if (index == pavionesId.length){
             // Si encuentra una identificación igual, envía un mensaje de error.
@@ -218,15 +216,15 @@ public class TareaUno {
             System.out.println(asiento.substring(2));
             System.out.println(paviones[index][fila][0].substring(2,3));
             
+            int seat = 0;
+            
             if (paviones[index][fila][0].substring(0,2).equals(asiento.substring(0,2))){
-                for (int seat = 0; seat < paviones[index][fila].length; seat++){
-                    System.out.println(asiento.substring(0,2));
+                for (seat = 0; seat < paviones[index][fila].length; seat++){
                     if (paviones[index][fila][seat].substring(2,3).equals(asiento.substring(2))){
-                        System.out.println(paviones[index][fila][seat].length());
-                        System.out.println(paviones[index][fila][seat].substring(4));
+                         // Si el asiento tiene menos de 6 caracteres de longitud y tiene una A en el lugar que indica el estado, está disponible.
                         if (paviones[index][fila][seat].length() <= 5 && "A".equals(paviones[index][fila][seat].substring(4))){
-                            String pasajero;
-                            boolean continueIdent = false;
+                            String pasajero;  // Se usa para almacenar el pasajero por agregar
+                            boolean continueIdent = false;  // se usa para ver si se tiene que seguir pidiendo la identificación ya que se ha dado incorrectamente
                             do{
                                 System.out.println("Ingrese la identificación del pasajero");
                                 pasajero = leerEntrada.nextLine(); // Lee la entrada
@@ -234,32 +232,33 @@ public class TareaUno {
                                     System.out.println("ERROR: El string ingresado debe ser entre 1 a 12 caracteres de largo");
                                 }
                                 else{
-                                    continueIdent = true;
+                                    continueIdent = true;  // Detiene el ciclo.
                                     break;
                                 }
                             } while (pasajero.length() > 12 && pasajero.length() <= 0 && continueIdent == false);
                             
-                            int pasaIndex = encontrarIndice(parPasajerosId, pasajero);
+                            int pasaIndex = encontrarIndice(parPasajerosId, pasajero); // Se usa para recorrer la lista de pasajeros
                             if (pasaIndex == parPasajerosId.length){
                                 System.out.println("ERROR: Ese pasajero no existe");
                                 return;
                             }                            
-                            paviones[index][fila][seat] += pasajero;
-                            parPasajeros[pasaIndex][2] = id;
-                            parPasajeros[pasaIndex][3] = asiento;
-                            System.out.println(Arrays.deepToString(parPasajeros));
-                            System.out.println(Arrays.deepToString(paviones));
+                            paviones[index][fila][seat] += pasajero; // Se añade al asiento el pasajero
+                            parPasajeros[pasaIndex][2] = id; // Se añade el avión a la información del pasajero
+                            parPasajeros[pasaIndex][3] = asiento; // Se añade el asiento a la información del pasajero
                             return;
                         }
-                        else {
+                        else {  // Si no está disponible, da mensaje de error
                             System.out.println("ERROR: Ese asiento tiene pasajeros o está inactivo.");
                             return;
                         }
                     }
                 }
-            }  
+            }
+            if (seat == paviones[index][fila].length) {  // Si el asiento no existe, da mensaje de error.
+                System.out.println("ERROR: Ese asiento no existe.");
+            }
         }
-        if (fila == paviones[index].length) {
+        if (fila == paviones[index].length) {  // Si el asiento no existe, da mensaje de error.
             System.out.println("ERROR: Ese asiento no existe.");
         }
     }
@@ -343,7 +342,7 @@ public class TareaUno {
             return;                  
         }
         
-        String confirmacion;
+        String confirmacion; // Almacena la confirmación de vaciar el avión
         System.out.println("Desea continuar con vaciar el avión?: S/N");
         confirmacion = leerEntrada.nextLine();
         if ("N".equals(confirmacion)){
@@ -352,12 +351,17 @@ public class TareaUno {
         
         int fila = 0;
         for (; fila < paviones[index].length; fila++){
-            for (int pasajero = 0; pasajero < paviones.length; pasajero++){
-                int pasaIndex = encontrarIndice(parPasajerosId, paviones[index][fila][pasajero].substring(5));
+            for (int pasajero = 0; pasajero < paviones[index][fila].length; pasajero++){
+                 // Si el asiento está ocupado
+                if (paviones[index][fila][pasajero].length() > 5){
+                } else {  // Si no, busca otro que sí esté ocupado
+                    continue;
+                }
+                int indexPas = encontrarIndice(pPasajerosId, paviones[index][fila][pasajero].substring(5)); // Almacena el índice del pasajero
+                paviones[index][fila][pasajero] = paviones[index][fila][pasajero].substring(0,5);  // Elimina la información del pasajero en el asiento
+                pPasajeros[indexPas] = new String[] {pPasajeros[indexPas][0], pPasajeros[indexPas][1], "", ""};  // Elimina el avión y asiento del pasajero
             }
         }
-        System.out.println(Arrays.deepToString(pPasajeros));
-        System.out.println(Arrays.deepToString(paviones));
     }
     
     static void consultarAvion(String[][][] paviones, String[] pavionesId, String[][] pPasajeros, String[] pPasajerosId){
@@ -431,8 +435,34 @@ public class TareaUno {
         System.out.println("Asiento: " + pPasajeros[indexPas][3]);
     }
     
-    static void consultarAsientosDisponibles(){
-
+    static void consultarAsientosDisponibles(String[][][] paviones, String[] pavionesId, String[][] pPasajeros, String[] pPasajerosId){
+        System.out.println("Consultar asientos disponibles");
+        int contadorEcon;  // Almacena la cantidad de asientos disponibles en la clase económica
+        int contadorBus;  // Almacena la cantidad de asientos disponibles en la clase ejecutiva.
+        for (int avion = 0; avion < pavionesId.length; avion++){  // Recorre cada avión
+            if (pavionesId[avion].length() == 0){  // Si el avión está vacío, se lo salta
+                continue;
+            }
+            System.out.println("Avión: " + pavionesId[avion]);
+            contadorEcon = 0; // Establece los contadores en 0
+            contadorBus = 0; 
+            for (int fila = 0; fila < paviones[avion].length; fila++){  // Recorre cada fila
+                System.out.println("Fila: " + paviones[avion][fila][0].substring(0,2));
+                for (int seat = 0; seat < paviones[avion][fila].length; seat++){ // Recorre cada asiento
+                    if (paviones[avion][fila][seat].length() < 6 && paviones[avion][fila][seat].charAt(4) == 'A'){    // Si el asiento no tiene pasajero y está activo
+                        System.out.println("Asiento: " + paviones[avion][fila][seat].substring(0,3));
+                        if (paviones[avion][fila][seat].charAt(3) == 'J'){  // Si la clase es J, lo suma al contador de efecutivo
+                            ++contadorBus;
+                        } else { // Si no, al de economía.
+                            ++contadorEcon;
+                        }
+                    }
+                }
+            }
+            System.out.println("Cantidad de asientos disponibles en la clase Ejecutiva: " + contadorBus);
+            System.out.println("Cantidad de asientos disponibles en la clase Económica: " + contadorEcon);
+            System.out.println("Cantidad de asientos disponibles totales en el avión: " + (contadorBus + contadorEcon));
+        }
     }
     
     static void registrarPasajeros(String[][] pPasajeros, String[] pPasajerosId){
@@ -567,7 +597,7 @@ public class TareaUno {
                     buscarPasajero(pasajeros, pasajerosId);
                     break;
                 case 9:
-                    consultarAsientosDisponibles();
+                    consultarAsientosDisponibles(aviones, avionesId, pasajeros, pasajerosId);
                     break;
                 case 10:
                     registrarPasajeros(pasajeros, pasajerosId);
