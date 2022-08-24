@@ -105,15 +105,15 @@ public class TareaUno {
         } while (asiento.length() != 3);
         
         boolean seguirFila = true;
-        
-        for (int fila = 0; fila < paviones[index].length; fila++){
+        int fila = 0;
+        for (; fila < paviones[index].length; fila++){
             if (!seguirFila) {
                 break;
             }
             if (paviones[index][fila][0].substring(2,3).equals(asiento.substring(2))){
                 for (int seat = 0; seat < paviones[index][fila].length; seat++){
                     if (paviones[index][fila][seat].substring(0,2).equals(asiento.substring(0,2))){
-                        if (paviones[index][fila][seat].length() > 5){
+                        if (paviones[index][fila][seat].length() <= 5){
                             if ("A".equals(paviones[index][fila][seat].substring(5))){
                                 paviones[index][fila][seat] = paviones[index][fila][seat].substring(0,5) + "I";
                             }
@@ -122,11 +122,18 @@ public class TareaUno {
                             }
                             System.out.println(paviones[index][fila][seat]);
                             seguirFila = false;
-                            break;
+                            break;  
                         }
+                        else {
+                        System.out.println("ERROR: Ese asiento tiene pasajeros.");
+                        return;
+                        }  
                     }
                 }
             }
+        }
+        if (fila == paviones[index].length) {
+            System.out.println("ERROR: Ese asiento no existe.");
         }
     }
     
@@ -165,15 +172,120 @@ public class TareaUno {
         pavionesId[avion] = ""; // Borra la identificación.
     }
     
-    static void asignarPasajeros(){
+    static void asignarPasajeros(String[][][] paviones, String[] pavionesId, String[] parPasajerosId, String[][] parPasajeros){
+        System.out.println("Asignar pasajeros a asientos"); 
+        Scanner leerEntrada = new Scanner(System.in);
+        String id; // String para la identificación del avión
+        do{
+            System.out.println("Ingrese el identificador del avión (String de 5 caracteres exactos)");
+            id = leerEntrada.nextLine(); // Lee la entrada
+            if (id.length() != 5){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
+                System.out.println("ERROR: El string ingresado debe ser de exactamente 5 caracteres.");
+            }
+        } while (id.length() != 5);
         
+        int index = encontrarIndice(pavionesId, id);
+        if (index == pavionesId.length){
+            // Si encuentra una identificación igual, envía un mensaje de error.
+            System.out.println("Avión no está registrado. No se puede modificar.");
+            return;                  
+        }
+        
+        String asiento;
+        do{
+            System.out.println("Ingrese el número y letra del asiento. Ej: 01A");
+            asiento = leerEntrada.nextLine(); // Lee la entrada
+            if (asiento.length() != 3){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
+                System.out.println("ERROR: El string ingresado debe ser de exactamente 3 caracteres.");
+            }
+        } while (asiento.length() != 3);
+        
+        boolean seguirFila = true;
+        int fila = 0;
+        for (; fila < paviones[index].length; fila++){
+            if (!seguirFila) {
+                break;
+            }
+            if (paviones[index][fila][0].substring(2,3).equals(asiento.substring(2))){
+                for (int seat = 0; seat < paviones[index][fila].length; seat++){
+                    if (paviones[index][fila][seat].substring(0,2).equals(asiento.substring(0,2))){
+                        if (paviones[index][fila][seat].length() <= 5 && "A".equals(paviones[index][fila][seat].substring(5))){
+                            String pasajero;
+                            do{
+                                System.out.println("Ingrese la identificación del pasajero");
+                                pasajero = leerEntrada.nextLine(); // Lee la entrada
+                                if (pasajero.length() > 12 && pasajero.length() <= 0){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
+                                    System.out.println("ERROR: El string ingresado debe ser entre 1 a 12 caracteres de largo");
+                                }
+                            } while (pasajero.length() > 12 && pasajero.length() <= 0);
+                            
+                            int pasaIndex = encontrarIndice(parPasajerosId, pasajero);
+                            if (pasaIndex == parPasajerosId.length){
+                                System.out.println("ERROR: Ese pasajero no existe");
+                                return;
+                            }                            
+                            paviones[index][fila][seat] += pasajero;
+                            parPasajeros[pasaIndex][2] = id;
+                            parPasajeros[pasaIndex][3] = asiento;
+                            System.out.println(Arrays.deepToString(parPasajeros));
+                            System.out.println(Arrays.deepToString(paviones));
+                        }
+                        else {
+                            System.out.println("ERROR: Ese asiento tiene pasajeros o está inactivo.");
+                            return;
+                        }
+                    }
+                }
+            }  
+        }
+        if (fila == paviones[index].length) {
+            System.out.println("ERROR: Ese asiento no existe.");
+        }
     }
+    
     
     static void vaciarAsiento(){
         
     }
     
-    static void vaciarAvion(){
+    static void vaciarAvion(String[][][] paviones, String[] pavionesId, String[] parPasajerosId, String[][] parPasajeros){
+        System.out.println("Vaciar avión"); 
+        Scanner leerEntrada = new Scanner(System.in);
+        String id; // String para la identificación del avión
+        do{
+            System.out.println("Ingrese el identificador del avión (String de 5 caracteres exactos)");
+            id = leerEntrada.nextLine(); // Lee la entrada
+            if (id.length() != 5){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
+                System.out.println("ERROR: El string ingresado debe ser de exactamente 5 caracteres.");
+            }
+        } while (id.length() != 5);
+        
+        int index = encontrarIndice(pavionesId, id);
+        if (index == pavionesId.length){
+            // Si encuentra una identificación igual, envía un mensaje de error.
+            System.out.println("Avión no está registrado. No se puede modificar.");
+            return;                  
+        }
+        
+        String confirmacion;
+        System.out.println("Desea continuar con vaciar el avión?: S/N");
+        confirmacion = leerEntrada.nextLine();
+        if ("N".equals(confirmacion)){
+            return;
+        }
+        
+        int fila = 0;
+        for (; fila < paviones[index].length; fila++){
+            for (int pasajero = 0; pasajero < paviones.length; pasajero++){
+                int pasaIndex = encontrarIndice(parPasajerosId, paviones[index][fila][pasajero].substring(6));
+            }
+            
+            
+              
+        }
+        if (fila == paviones[index].length) {
+            System.out.println("ERROR: Ese asiento no existe.");
+        }
     }
     
     static void consultarAvion(){
@@ -247,13 +359,13 @@ public class TareaUno {
                     excluirAvion(avionesId, aviones);
                     break;
                 case 4:
-                    asignarPasajeros();
+                    asignarPasajeros(aviones, avionesId, pasajerosId, pasajeros);
                     break;
                 case 5:
                     vaciarAsiento();
                     break;
                 case 6:
-                    vaciarAvion();
+                    vaciarAvion(aviones, avionesId, pasajerosId, pasajeros);
                     break;
                 case 7:
                     consultarAvion();
