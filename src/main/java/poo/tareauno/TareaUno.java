@@ -169,8 +169,64 @@ public class TareaUno {
         
     }
     
-    static void vaciarAsiento(){
+    static void vaciarAsiento(String[] pavionesId,String[][][] paviones,String[][] pPasajeros,String[] pPasajerosId){
+        Scanner leerEntrada = new Scanner(System.in);
+        String idAvion; // String para la identificación del avión
+        do{
+            System.out.println("Ingrese el identificador del avión a excluir (String de 5 caracteres exactos)");
+            idAvion = leerEntrada.nextLine(); // Lee la entrada
+            if (idAvion.length() != 5){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
+                System.out.println("ERROR: El string ingresado debe ser de exactamente 5 caracteres.");
+            }
+        } while (idAvion.length() != 5);
         
+        int avion = encontrarIndice(pavionesId, idAvion); // devuelve el indice respectivo de la identificacion
+        if (avion == pavionesId.length){ // Si el indice es la longitud maxima, no esta registrado.
+            System.out.println("El avión con la identificación ingresada no existe.");
+            return;       
+        }
+        
+        String asiento;
+        do{
+            System.out.println("Ingrese el número y letra del asiento. Ej: 01A");
+            asiento = leerEntrada.nextLine(); // Lee la entrada
+            if (asiento.length() != 3){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
+                System.out.println("ERROR: El string ingresado debe ser de exactamente 3 caracteres.");
+            }
+        } while (asiento.length() != 3);
+        
+        String idPas; // String para la identificación del avión
+        do{
+            System.out.println("Ingrese la identificación del pasajero (String de 1 a 12 caracteres)");
+            idPas = leerEntrada.nextLine(); // Lee la entrada
+            if (idPas.length() > 12 || idPas.length() == 0){ 
+            //  Si la entrada no está entre el rango deseado, envía un error.
+                System.out.println("ERROR: El string ingresado debe tener de 1 a 12 caracteres.");
+            }
+        } while (idPas.length() > 12 || idPas.length() == 0);
+        int indexPas = encontrarIndice(pPasajerosId, idPas);
+        if (indexPas == pPasajerosId.length){
+            // Si encuentra una identificación igual, envía un mensaje de error.
+            System.out.println("Pasajero no está registrado. No se puede eliminar del asiento.");
+            return;                  
+        }
+        
+        int fila = (Integer.parseInt(asiento.substring(2)) - 1);
+        int columna;
+        if (fila < 4 && asiento.charAt(2) > 'B'){
+            columna = (int)asiento.charAt(2) - 67;
+        } else{
+            columna = (int)asiento.charAt(2) - 65;
+        }
+        System.out.println(fila + " " + columna);
+        
+        if ((paviones[avion][fila][columna].substring(6, paviones[avion][fila][columna].length())).equals(idPas)){
+            paviones[avion][fila][columna] = paviones[avion][fila][columna].substring(6);
+            pPasajeros[indexPas] = new String[] {pPasajeros[indexPas][0], pPasajeros[indexPas][1], "", ""};
+        } else {
+            System.out.println("ERROR: La identificación del pasajero dada no coincide con la del asiento.");
+            return;
+        }
     }
     
     static void vaciarAvion(){
