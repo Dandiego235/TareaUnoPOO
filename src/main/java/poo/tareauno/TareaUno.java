@@ -363,7 +363,7 @@ public class TareaUno {
                     asignarPasajeros();
                     break;
                 case 5:
-                    vaciarAsiento();
+                    vaciarAsiento(avionesId, aviones, pasajeros, pasajerosId);
                     break;
                 case 6:
                     vaciarAvion();
