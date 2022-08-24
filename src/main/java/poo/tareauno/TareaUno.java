@@ -315,8 +315,8 @@ public class TareaUno {
         }
         System.out.println(fila + " " + columna);
         
-        if ((paviones[avion][fila][columna].substring(6, paviones[avion][fila][columna].length())).equals(idPas)){
-            paviones[avion][fila][columna] = paviones[avion][fila][columna].substring(0,6);
+        if ((paviones[avion][fila][columna].substring(5, paviones[avion][fila][columna].length())).equals(idPas)){
+            paviones[avion][fila][columna] = paviones[avion][fila][columna].substring(0,5);
             pPasajeros[indexPas] = new String[] {pPasajeros[indexPas][0], pPasajeros[indexPas][1], "", ""};
         } else {
             System.out.println("ERROR: La identificación del pasajero dada no coincide con la del asiento.");
@@ -353,7 +353,7 @@ public class TareaUno {
         int fila = 0;
         for (; fila < paviones[index].length; fila++){
             for (int pasajero = 0; pasajero < paviones.length; pasajero++){
-                int pasaIndex = encontrarIndice(parPasajerosId, paviones[index][fila][pasajero].substring(6));
+                int pasaIndex = encontrarIndice(parPasajerosId, paviones[index][fila][pasajero].substring(5));
             }
             
             
@@ -380,19 +380,27 @@ public class TareaUno {
             System.out.println("El avión con la identificación ingresada no existe.");
             return;       
         }
+        
+        System.out.println("CLASE EJECUTIVA");
             for (int fila = 0; fila < paviones[avion].length; fila++){
+                if (fila == 3){
+                    System.out.println("CLASE ECONÓMICA");
+                }
                 for (int asiento = 0; asiento < paviones[avion][fila].length; asiento++){
                     if (asiento == 2 && fila < 4){
                         System.out.printf("%-50s       	", " ");
                     }
                     String nombre;
                     try{
-                        String pasajeroId = paviones[avion][fila][asiento].substring(6);
+                        String pasajeroId = paviones[avion][fila][asiento].substring(5);
                         int indexPas = encontrarIndice(pPasajerosId, pasajeroId);
                         nombre = pPasajeros[indexPas][0] + " " + pPasajeros[indexPas][1];
                     }
                     catch (Exception e){
                         nombre = "";
+                    }
+                    if (paviones[avion][fila][asiento].charAt(4) == 'I'){
+                        nombre = "INACTIVO";
                     }
                     System.out.printf("%s-%s %-20s\t", paviones[avion][fila][asiento].substring(0,2),
                     paviones[avion][fila][asiento].charAt(2), nombre);
@@ -401,8 +409,27 @@ public class TareaUno {
             }
     }
     
-    static void buscarPasajero(){
-        
+    static void buscarPasajero(String[][] pPasajeros,String[] pPasajerosId){
+        String idPas; // String para la identificación del avión
+        Scanner leerEntrada = new Scanner(System.in);
+        do{
+            System.out.println("Ingrese la identificación del pasajero (String de 1 a 12 caracteres)");
+            idPas = leerEntrada.nextLine(); // Lee la entrada
+            if (idPas.length() > 12 || idPas.length() == 0){ 
+            //  Si la entrada no está entre el rango deseado, envía un error.
+                System.out.println("ERROR: El string ingresado debe tener de 1 a 12 caracteres.");
+            }
+        } while (idPas.length() > 12 || idPas.length() == 0);
+        int indexPas = encontrarIndice(pPasajerosId, idPas);
+        if (indexPas == pPasajerosId.length){
+            // Si encuentra una identificación igual, envía un mensaje de error.
+            System.out.println("Pasajero no está registrado. No se puede buscar");
+            return;                  
+        }
+        // Se imprimen los datos del pasajero. Si no está asignado a un avión, se imprimen los espacios en blanco.
+        System.out.println("Nombre: " + pPasajeros[indexPas][0] + " " + pPasajeros[indexPas][1]);
+        System.out.println("Avión: " + pPasajeros[indexPas][2]);
+        System.out.println("Asiento: " + pPasajeros[indexPas][3]);
     }
     
     static void consultarAsientosDisponibles(){
@@ -538,7 +565,7 @@ public class TareaUno {
                     consultarAvion(aviones, avionesId, pasajeros, pasajerosId);
                     break;
                 case 8:
-                    buscarPasajero();
+                    buscarPasajero(pasajeros, pasajerosId);
                     break;
                 case 9:
                     consultarAsientosDisponibles();
