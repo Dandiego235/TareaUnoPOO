@@ -211,7 +211,7 @@ public class TareaUno {
             return;                  
         }
         
-        int fila = (Integer.parseInt(asiento.substring(2)) - 1);
+        int fila = (Integer.parseInt(asiento.substring(0,2)) - 1);
         int columna;
         if (fila < 4 && asiento.charAt(2) > 'B'){
             columna = (int)asiento.charAt(2) - 67;
@@ -221,7 +221,7 @@ public class TareaUno {
         System.out.println(fila + " " + columna);
         
         if ((paviones[avion][fila][columna].substring(6, paviones[avion][fila][columna].length())).equals(idPas)){
-            paviones[avion][fila][columna] = paviones[avion][fila][columna].substring(6);
+            paviones[avion][fila][columna] = paviones[avion][fila][columna].substring(0,6);
             pPasajeros[indexPas] = new String[] {pPasajeros[indexPas][0], pPasajeros[indexPas][1], "", ""};
         } else {
             System.out.println("ERROR: La identificación del pasajero dada no coincide con la del asiento.");
@@ -232,8 +232,41 @@ public class TareaUno {
     static void vaciarAvion(){
     }
     
-    static void consultarAvion(){
+    static void consultarAvion(String[][][] paviones, String[] pavionesId, String[][] pPasajeros, String[] pPasajerosId){
+        Scanner leerEntrada = new Scanner(System.in);
+        String idAvion; // String para la identificación del avión
+        do{
+            System.out.println("Ingrese el identificador del avión a excluir (String de 5 caracteres exactos)");
+            idAvion = leerEntrada.nextLine(); // Lee la entrada
+            if (idAvion.length() != 5){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
+                System.out.println("ERROR: El string ingresado debe ser de exactamente 5 caracteres.");
+            }
+        } while (idAvion.length() != 5);
         
+        int avion = encontrarIndice(pavionesId, idAvion); // devuelve el indice respectivo de la identificacion
+        if (avion == pavionesId.length){ // Si el indice es la longitud maxima, no esta registrado.
+            System.out.println("El avión con la identificación ingresada no existe.");
+            return;       
+        }
+            for (int fila = 0; fila < paviones[avion].length; fila++){
+                for (int asiento = 0; asiento < paviones[avion][fila].length; asiento++){
+                    if (asiento == 2 && fila < 4){
+                        System.out.printf("%-50s       	", " ");
+                    }
+                    String nombre;
+                    try{
+                        String pasajeroId = paviones[avion][fila][asiento].substring(6);
+                        int indexPas = encontrarIndice(pPasajerosId, pasajeroId);
+                        nombre = pPasajeros[indexPas][0] + " " + pPasajeros[indexPas][1];
+                    }
+                    catch (Exception e){
+                        nombre = "";
+                    }
+                    System.out.printf("%s-%s %-20s\t", paviones[avion][fila][asiento].substring(0,2),
+                    paviones[avion][fila][asiento].charAt(2), nombre);
+                }
+                System.out.println("\n");
+            }
     }
     
     static void buscarPasajero(){
@@ -369,7 +402,7 @@ public class TareaUno {
                     vaciarAvion();
                     break;
                 case 7:
-                    consultarAvion();
+                    consultarAvion(aviones, avionesId, pasajeros, pasajerosId);
                     break;
                 case 8:
                     buscarPasajero();
