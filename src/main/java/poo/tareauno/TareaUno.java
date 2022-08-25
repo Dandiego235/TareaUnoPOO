@@ -240,8 +240,6 @@ public class TareaUno {
             if (!seguirFila) {
                 break;
             }
-            System.out.println(asiento.substring(2));
-            System.out.println(paviones[index][fila][0].substring(2,3));
             
             int seat = 0;
             
