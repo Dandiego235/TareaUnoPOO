@@ -292,7 +292,7 @@ public class TareaUno {
         Scanner leerEntrada = new Scanner(System.in);
         String idAvion; // String para la identificación del avión
         do{
-            System.out.println("Ingrese el identificador del avión a excluir (String de 5 caracteres exactos)");
+            System.out.println("Ingrese el identificador del avión (String de 5 caracteres exactos)");
             idAvion = leerEntrada.nextLine(); // Lee la entrada
             if (idAvion.length() != 5){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
                 System.out.println("ERROR: El string ingresado debe ser de exactamente 5 caracteres.");
@@ -423,7 +423,7 @@ public class TareaUno {
         Scanner leerEntrada = new Scanner(System.in);
         String idAvion; // String para la identificación del avión
         do{
-            System.out.println("Ingrese el identificador del avión a excluir (String de 5 caracteres exactos)");
+            System.out.println("Ingrese el identificador del avión a consultar (String de 5 caracteres exactos)");
             idAvion = leerEntrada.nextLine(); // Lee la entrada
             if (idAvion.length() != 5){ //  Si la entrada no es exactamente de 5 caracteres, envía error y la vuelve a pedir.
                 System.out.println("ERROR: El string ingresado debe ser de exactamente 5 caracteres.");
