@@ -18,7 +18,11 @@ import java.util.Arrays;
  * Instituto Tecnológico de Costa Rica
  * Escuela de Computación
  * 
- * Fecha: 25/07/2022
+ * Fecha: 25/07/2022.
+ * 
+ * En las instrucciones, no se incluye una opción 10. Sin embargo, es necesaria
+ * esta opción para registrar los pasajeros para luego agregarlos a cada avión.
+ * Por lo tanto, la opción 10 es de registro de pasajeros.
  */
 public class TareaUno {
     
@@ -55,7 +59,7 @@ public class TareaUno {
         // index es el índice de la identificación en el arreglo de identificaciones.
         if (index != pavionesId.length){ // Si el índice es la longitud del arreglo, es que no encontró el elemento.
             // Si encuentra una identificación igual, envía un mensaje de error.
-            System.out.println("Avión ya está registrado. No se puede agregar.");
+            System.out.println("ERROR: Avión ya está registrado. No se puede agregar.");
             return;
         }
         
@@ -68,7 +72,7 @@ public class TareaUno {
         }
         
         if(avion == pavionesId.length){ // Valida si ya todos los aviones están registrados.
-            System.out.println("No hay aviones disponibles para registrar.");
+            System.out.println("ERROR: No hay aviones disponibles para registrar.");
             return;
         }
         
@@ -111,7 +115,7 @@ public class TareaUno {
         // index es el índice de la identificación en el arreglo de identificaciones.
         if (index == pavionesId.length){
             // Si encuentra una identificación igual, envía un mensaje de error.
-            System.out.println("Avión no está registrado. No se puede modificar.");
+            System.out.println("ERROR: Avión no está registrado. No se puede modificar.");
             return;                  
         }
         
@@ -178,7 +182,7 @@ public class TareaUno {
         
         int avion = encontrarIndice(pavionesId, id); // devuelve el indice respectivo de la identificacion
         if (avion == pavionesId.length){ // Si el indice es la longitud maxima, no esta registrado.
-            System.out.println("El avión con la identificación ingresada no existe.");
+            System.out.println("ERROR: El avión con la identificación ingresada no existe.");
             return;       
         }
         
@@ -186,7 +190,7 @@ public class TareaUno {
             for (int asiento = 0; asiento < paviones[avion][fila].length; asiento++){
                 if (paviones[avion][fila][asiento].length() != 5){
                     // si en algun asiento, el string no tiene 5 caracteres, es que tiene un pasajero, entonces el avion no está vacío.
-                    System.out.println("El avión no está vacío. No se puede excluir.");
+                    System.out.println("ERROR: El avión no está vacío. No se puede excluir.");
                     return;
                 }
             }
@@ -216,7 +220,7 @@ public class TareaUno {
         int index = encontrarIndice(pavionesId, id);
         if (index == pavionesId.length){
             // Si encuentra una identificación igual, envía un mensaje de error.
-            System.out.println("Avión no está registrado. No se puede modificar.");
+            System.out.println("ERROR: Avión no está registrado. No se puede modificar.");
             return;                  
         }
         
@@ -302,7 +306,7 @@ public class TareaUno {
         
         int avion = encontrarIndice(pavionesId, idAvion); // devuelve el indice respectivo de la identificacion
         if (avion == pavionesId.length){ // Si el indice es la longitud maxima, no esta registrado.
-            System.out.println("El avión con la identificación ingresada no existe.");
+            System.out.println("ERROR: El avión con la identificación ingresada no existe.");
             return;       
         }
         
@@ -327,7 +331,7 @@ public class TareaUno {
         int indexPas = encontrarIndice(pPasajerosId, idPas);
         if (indexPas == pPasajerosId.length){
             // Si no encuentra una identificación igual, envía un mensaje de error.
-            System.out.println("Pasajero no está registrado. No se puede eliminar del asiento.");
+            System.out.println("ERROR: Pasajero no está registrado. No se puede eliminar del asiento.");
             return;                  
         }
         int fila;
@@ -361,8 +365,6 @@ public class TareaUno {
             return;
         }
         
-        System.out.println(fila + " " + columna);
-        
         if ((paviones[avion][fila][columna].substring(5, paviones[avion][fila][columna].length())).equals(idPas)){
             // Si la identificación de pasajeros al final del asiento es igual a la identificación dada por el usuario,
             paviones[avion][fila][columna] = paviones[avion][fila][columna].substring(0,5);
@@ -390,7 +392,7 @@ public class TareaUno {
         int index = encontrarIndice(pavionesId, id);
         if (index == pavionesId.length){
             // Si encuentra una identificación igual, envía un mensaje de error.
-            System.out.println("Avión no está registrado. No se puede modificar.");
+            System.out.println("ERROR: Avión no está registrado. No se puede modificar.");
             return;                  
         }
         
@@ -591,6 +593,8 @@ public class TareaUno {
         final short NUM_PASAJEROS = 5000;
         
         String[][][] aviones = new String [NUM_AVIONES][FILAS][]; // matriz para almacenar todos los aviones
+        // Es una matriz de tres dimensiones, donde la primera dimensión representa la cantidad de aviones en total,
+        // la segunda es la cantidad de filas por avión, y la tercera dimensión representa los asientos de cada fila.
         for (int avion = 0; avion < aviones.length; avion++){ // se recorre la matriz para asignarle la longitud correcta a cada fila.
             for (int fila = 0; fila < aviones[avion].length; fila++){
                 if (fila < 4){ // si el índice de la fila es menor que 4, la fila tiene solo 4 asientos
@@ -619,7 +623,7 @@ public class TareaUno {
         Scanner leerDato = new Scanner(System.in);
         
         int opcion;
-        do {
+        do { // Se imprime el menú y se solicita la entrada al usuario.
             System.out.println("Asignación de asientos");
             System.out.println("Ingrese su opcion entre las siguientes");
             System.out.println("1: Agregar avión");
