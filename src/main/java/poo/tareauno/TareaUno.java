@@ -55,7 +55,7 @@ public class TareaUno {
         // index es el índice de la identificación en el arreglo de identificaciones.
         if (index != pavionesId.length){ // Si el índice es la longitud del arreglo, es que no encontró el elemento.
             // Si encuentra una identificación igual, envía un mensaje de error.
-            System.out.println("Avión ya está registrado. No se puede agregar.");
+            System.out.println("ERROR: Avión ya está registrado. No se puede agregar.");
             return;
         }
         
@@ -153,9 +153,6 @@ public class TareaUno {
                     }
                 }
             }
-            if (seat == paviones[index][fila].length) {  // Si el asiento no existe, da mensaje de error.
-                System.out.println("ERROR: Ese asiento no existe.");
-            }
         }
         if (fila == paviones[index].length) {  // Si la longitud del arreglo de filas es igual al índice que se usaba para recorrerla, el asiento no puede existir.
             System.out.println("ERROR: Ese asiento no existe.");
@@ -200,6 +197,9 @@ public class TareaUno {
         pavionesId[avion] = ""; // Borra la identificación.
     }
     
+    // Función que asigna pasajeros a asientos
+    // Entradas: el avión, el asiento y el pasajero
+    // Salidas: No hay
     static void asignarPasajeros(String[][][] paviones, String[] pavionesId, String[] parPasajerosId, String[][] parPasajeros){
         System.out.println("Asignar pasajeros a asientos"); 
         Scanner leerEntrada = new Scanner(System.in);
@@ -236,8 +236,6 @@ public class TareaUno {
             if (!seguirFila) {
                 break;
             }
-            System.out.println(asiento.substring(2));
-            System.out.println(paviones[index][fila][0].substring(2,3));
             
             int seat = 0;
             
@@ -276,9 +274,6 @@ public class TareaUno {
                         }
                     }
                 }
-            }
-            if (seat == paviones[index][fila].length) {  // Si el asiento no existe, da mensaje de error.
-                System.out.println("ERROR: Ese asiento no existe.");
             }
         }
         if (fila == paviones[index].length) {  // Si el asiento no existe, da mensaje de error.
@@ -375,6 +370,9 @@ public class TareaUno {
         }
     }
     
+    // Función que vacía el avión
+    // Entradas: avión, confirmación del vaciar el avión
+    // Salidas: No hay
     static void vaciarAvion(String[][][] paviones, String[] pavionesId, String[] pPasajerosId, String[][] pPasajeros){
         System.out.println("Vaciar avión"); 
         Scanner leerEntrada = new Scanner(System.in);
@@ -497,6 +495,9 @@ public class TareaUno {
         System.out.println("Asiento: " + pPasajeros[indexPas][3]);
     }
     
+    // Función que despliega los asientos disponibles de cada clase y su cantidad en todos los aviones.
+    // Entradas: los arreglos de aviones y pasajeros.
+    // Salidas: Cantidad de asientos disponibles.
     static void consultarAsientosDisponibles(String[][][] paviones, String[] pavionesId, String[][] pPasajeros, String[] pPasajerosId){
         System.out.println("Consultar asientos disponibles");
         int contadorEcon;  // Almacena la cantidad de asientos disponibles en la clase económica
